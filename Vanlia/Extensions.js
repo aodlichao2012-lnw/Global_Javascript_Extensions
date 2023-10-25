@@ -54,10 +54,80 @@ function CreateTables(headers , values , tablename , classname){
 }
 function toggle(myElement){
     var element = document.getElementById(myElement);
-
-if (element.style.display === "none") {
-    element.style.display = "block";
-} else {
-    element.style.display = "none";
+    if (element.style.display === "none") {
+        element.style.display = "block";
+    } else {
+        element.style.display = "none";
+    }
 }
+function NewTab(link){
+    window.open(link)
+}
+function redirect(link){
+    window.location.href = link;
+}
+function alert_(title,txt,cancelButtonText ,showCancelButton,confirmButtonText,customClass_confirmButton) {
+    Swal.fire({
+        title: title,
+        text: txt,
+        confirmButtonText: confirmButtonText,
+        showCancelButton: showCancelButton,
+        cancelButtonText: cancelButtonText,
+        customClass: {
+            confirmButton: customClass_confirmButton // ใช้คลาส CSS ที่คุณสร้าง
+        }
+    });
+}
+function uploadFiles(fileInput , imagePreview) {
+    // ตรวจสอบว่ามีไฟล์หรือไม่
+    if (fileInput.length > 0) {
+      var file = fileInput[0]; // เลือกไฟล์แรกเท่านั้น
+      // ตรวจสอบว่าไฟล์เป็นรูปภาพหรือไม่ (อื่นๆ สามารถตรวจสอบได้ด้วย)
+    if (file.type.indexOf('image') === 0) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+        var imageUrl = e.target.result;
+          // ทำสิ่งที่คุณต้องการกับ URL ของรูปภาพ, เช่นแสดงรูปภาพในหน้าเว็บ
+        $(imagePreview).attr('src', imageUrl);
+        };
+        reader.readAsDataURL(file); // อ่านไฟล์เป็น Data URL
+    } else {
+        alert_('แจ้งเตือน','โปรดเลือกรูปภาพเท่านั้น',false,false,true);
+    }
+}
+}
+function dropAnddrag(fileInput,imagePreview){
+    const fileInput = document.getElementById(fileInput);
+    const imagePreview = document.getElementById(imagePreview);
+    
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+            };
+            
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.src = '';
+        }
+    });
+    // แสดงรูปภาพที่ถูกลากและวางลงในหน้าเว็บ
+    document.body.addEventListener('dragover', (event) => {
+        event.preventDefault();
+    });
+    document.body.addEventListener('drop', (event) => {
+        event.preventDefault();
+        const file = event.dataTransfer.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 }

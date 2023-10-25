@@ -50,4 +50,71 @@ $(document).ready(function(){
     function toggle(myElement){
         $(myElement).toggle();
     }
+    function NewTab(link){
+        window.open(link)
+    }
+    function redirect(link){
+        window.location.href = link;
+    }
+    function dropAnddrag(dropArea){
+        $(dropArea).on('dragover', function(e) {
+            e.preventDefault();
+            $(this).addClass('dragover');
+        });
+        
+        // เมื่อย้ายเมาส์ออกจาก dropArea
+        $(dropArea).on('dragleave', function(e) {
+            e.preventDefault();
+            $(this).removeClass('dragover');
+        });
+        
+        // เมื่อมีการวางไฟล์ลงบน dropArea
+        $(dropArea).on('drop', function(e) {
+            e.preventDefault();
+            $(this).removeClass('dragover');
+        
+          var files = e.originalEvent.dataTransfer.files; // รับรายการไฟล์ที่ลากมา
+        
+          // เรียกใช้ฟังก์ชันที่จะอัปโหลดไฟล์
+            uploadFiles(files);
+        });
+        
+        // เมื่อมีการเลือกไฟล์ผ่าน input file
+        $('#fileInput').on('change', function() {
+          var files = this.files; // รับรายการไฟล์ที่ถูกเลือก
+        
+          // เรียกใช้ฟังก์ชันที่จะอัปโหลดไฟล์
+            uploadFiles(files);
+        });
+    }
+    function uploadFiles(files , imagePreview) {
+        // ตรวจสอบว่ามีไฟล์หรือไม่
+        if (files.length > 0) {
+          var file = files[0]; // เลือกไฟล์แรกเท่านั้น
+          // ตรวจสอบว่าไฟล์เป็นรูปภาพหรือไม่ (อื่นๆ สามารถตรวจสอบได้ด้วย)
+        if (file.type.indexOf('image') === 0) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+            var imageUrl = e.target.result;
+              // ทำสิ่งที่คุณต้องการกับ URL ของรูปภาพ, เช่นแสดงรูปภาพในหน้าเว็บ
+            $(imagePreview).attr('src', imageUrl);
+            };
+            reader.readAsDataURL(file); // อ่านไฟล์เป็น Data URL
+        } else {
+            alert_('แจ้งเตือน','โปรดเลือกรูปภาพเท่านั้น',false,false,true);
+        }
+    }
+    }
+    function alert_(title,txt,cancelButtonText ,showCancelButton,confirmButtonText,customClass_confirmButton) {
+        Swal.fire({
+            title: title,
+            text: txt,
+            confirmButtonText: confirmButtonText,
+            showCancelButton: showCancelButton,
+            cancelButtonText: cancelButtonText,
+            customClass: {
+                confirmButton: customClass_confirmButton // ใช้คลาส CSS ที่คุณสร้าง
+            }
+        });
+    }
 })
