@@ -117,4 +117,45 @@ $(document).ready(function(){
             }
         });
     }
+    function ajaxPool (request){
+        requests: [];
+
+        add : function a (request) {
+            this.requests.push(request);
+        }
+        // เมื่อ request เสร็จสิ้น
+        remove: function b(request) {
+            var index = this.requests.indexOf(request);
+            if (index !== -1) {
+            this.requests.splice(index, 1);
+            }
+        }
+        // ยกเลิกทุก requests ที่ค้างอยู่ใน "pool"
+        cancelAll: function z( ) {
+            $.each(this.requests, function(index, request) {
+            request.abort();
+            });
+            this.requests = [];
+        }
+    }
+    function ajax_(url,type,data,processData,contentType){
+        requst1 =  $.ajax({
+            url:url,
+            type:type,
+            data:data,
+            processData: processData,
+            contentType: contentType,
+            success: function(response) {
+                return response;
+                // สิ่งที่คุณต้องการทำเมื่อส่งข้อมูลสำเร็จ
+            },
+            error: function(xhr, status, error) {
+                return error
+                // สิ่งที่คุณต้องการทำเมื่อเกิดข้อผิดพลาด
+            }
+        })
+        ajaxPool.add(requst1)
+        ajaxPool.remove(requst1)
+        ajaxPool.cancelAll();
+    }
 })
