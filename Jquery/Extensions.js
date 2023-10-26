@@ -1,4 +1,4 @@
-$(document).ready(function(){
+
     function openModal(){
         $("#openModal").on("click", function() {
             $("#myModal").css("display", "block");
@@ -158,4 +158,3 @@ $(document).ready(function(){
         ajaxPool.remove(requst1)
         ajaxPool.cancelAll();
     }
-})
