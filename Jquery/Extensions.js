@@ -1,4 +1,4 @@
-
+$(document).ready(function(){
     function openModal(){
         $("#openModal").on("click", function() {
             $("#myModal").css("display", "block");
@@ -56,32 +56,31 @@
     function redirect(link){
         window.location.href = link;
     }
-    function dragover(dropArea_id){
+    function dropAnddrag(dropArea_id , fileToUpload_id){
         $(dropArea_id).on('dragover', function(e) {
             e.preventDefault();
             $(this).addClass('dragover');
         });
-    }
-    function dragleave(dropArea_id){
-    // เมื่อย้ายเมาส์ออกจาก dropArea
-            $(dropArea_id).on('dragleave', function(e) {
+        
+        // เมื่อย้ายเมาส์ออกจาก dropArea
+        $(dropArea_id).on('dragleave', function(e) {
             e.preventDefault();
             $(this).removeClass('dragover');
         });
-    }
-    function drop(dropArea_id){
+        
         // เมื่อมีการวางไฟล์ลงบน dropArea
-            $(dropArea_id).on('drop', function(e) {
+        $(dropArea_id).on('drop', function(e) {
             e.preventDefault();
             $(this).removeClass('dragover');
-            var files = e.originalEvent.dataTransfer.files; // รับรายการไฟล์ที่ลากมา
+        
+          var files = e.originalEvent.dataTransfer.files; // รับรายการไฟล์ที่ลากมา
+        
           // เรียกใช้ฟังก์ชันที่จะอัปโหลดไฟล์
             uploadFiles(files);
         });
-    }
-    function fileInput_change(dropArea_id){
+        
         // เมื่อมีการเลือกไฟล์ผ่าน input file
-        $('#fileInput').on('change', function() {
+        $(fileToUpload_id).on('change', function() {
           var files = this.files; // รับรายการไฟล์ที่ถูกเลือก
         
           // เรียกใช้ฟังก์ชันที่จะอัปโหลดไฟล์
@@ -97,9 +96,8 @@
             var reader = new FileReader();
             reader.onload = function(e) {
             var imageUrl = e.target.result;
-            let imagePreview = imagePreview_id;
               // ทำสิ่งที่คุณต้องการกับ URL ของรูปภาพ, เช่นแสดงรูปภาพในหน้าเว็บ
-            $(imagePreview).attr('src', imageUrl);
+            $(imagePreview_id).attr('src', imageUrl);
             };
             reader.readAsDataURL(file); // อ่านไฟล์เป็น Data URL
         } else {
@@ -140,23 +138,26 @@
             this.requests = [];
         }
     }
-    function ajax_(url,type,data,processData,contentType){
-        requst1 =  $.ajax({
-            url:url,
-            type:type,
-            data:data,
+    function ajax_(url, type, data, action, successCallback, errorCallback, processData = true, contentType = null) {
+        $.ajax({
+            url: url,
+            type: type,
+            data: {
+                action: action,
+                data: data
+            },
             processData: processData,
             contentType: contentType,
-            success: function(response) {
-                return response;
-                // สิ่งที่คุณต้องการทำเมื่อส่งข้อมูลสำเร็จ
+            success: function (response) {
+                if (successCallback) {
+                    successCallback(response);
+                }
             },
-            error: function(xhr, status, error) {
-                return error
-                // สิ่งที่คุณต้องการทำเมื่อเกิดข้อผิดพลาด
+            error: function (xhr, status, error) {
+                if (errorCallback) {
+                    errorCallback(error);
+                }
             }
-        })
-        ajaxPool.add(requst1)
-        ajaxPool.remove(requst1)
-        ajaxPool.cancelAll();
+        });
     }
+})
