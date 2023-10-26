@@ -56,29 +56,30 @@
     function redirect(link){
         window.location.href = link;
     }
-    function dropAnddrag(dropArea_id){
+    function dragover(dropArea_id){
         $(dropArea_id).on('dragover', function(e) {
             e.preventDefault();
             $(this).addClass('dragover');
         });
-        
-        // เมื่อย้ายเมาส์ออกจาก dropArea
-        $(dropArea_id).on('dragleave', function(e) {
+    }
+    function dragleave(dropArea_id){
+    // เมื่อย้ายเมาส์ออกจาก dropArea
+            $(dropArea_id).on('dragleave', function(e) {
             e.preventDefault();
             $(this).removeClass('dragover');
         });
-        
+    }
+    function drop(dropArea_id){
         // เมื่อมีการวางไฟล์ลงบน dropArea
-        $(dropArea_id).on('drop', function(e) {
+            $(dropArea_id).on('drop', function(e) {
             e.preventDefault();
             $(this).removeClass('dragover');
-        
-          var files = e.originalEvent.dataTransfer.files; // รับรายการไฟล์ที่ลากมา
-        
+            var files = e.originalEvent.dataTransfer.files; // รับรายการไฟล์ที่ลากมา
           // เรียกใช้ฟังก์ชันที่จะอัปโหลดไฟล์
             uploadFiles(files);
         });
-        
+    }
+    function fileInput_change(dropArea_id){
         // เมื่อมีการเลือกไฟล์ผ่าน input file
         $('#fileInput').on('change', function() {
           var files = this.files; // รับรายการไฟล์ที่ถูกเลือก
@@ -96,8 +97,9 @@
             var reader = new FileReader();
             reader.onload = function(e) {
             var imageUrl = e.target.result;
+            let imagePreview = imagePreview_id;
               // ทำสิ่งที่คุณต้องการกับ URL ของรูปภาพ, เช่นแสดงรูปภาพในหน้าเว็บ
-            $(imagePreview_id).attr('src', imageUrl);
+            $(imagePreview).attr('src', imageUrl);
             };
             reader.readAsDataURL(file); // อ่านไฟล์เป็น Data URL
         } else {
