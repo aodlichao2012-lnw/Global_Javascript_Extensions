@@ -90,18 +90,35 @@ $(document).ready(function(){
     function uploadFiles(files ,type, imagePreview_id) {
         // ตรวจสอบว่ามีไฟล์หรือไม่
         if (files.length > 0) {
-          var file = files[0]; // เลือกไฟล์แรกเท่านั้น
+        foreach(item in files)
+        {
+            var file = item; 
           // ตรวจสอบว่าไฟล์เป็นรูปภาพหรือไม่ (อื่นๆ สามารถตรวจสอบได้ด้วย)
-        if (file.type.indexOf(type) === 0) {
+        if (file.type.indexOf('image') === 0) {
             var reader = new FileReader();
             reader.onload = function(e) {
+            let imagePreview = imagePreview_id;
             var imageUrl = e.target.result;
               // ทำสิ่งที่คุณต้องการกับ URL ของรูปภาพ, เช่นแสดงรูปภาพในหน้าเว็บ
-            $(imagePreview_id).attr('src', imageUrl);
+            $(imagePreview).attr('src', imageUrl);
             };
             reader.readAsDataURL(file); // อ่านไฟล์เป็น Data URL
-        } else {
-            alert_('แจ้งเตือน','โปรดเลือกรูปภาพเท่านั้น',false,false,true);
+            let formdata = new FormData();
+            formdata.append("files_fileToUpload_name" ,'fileToUpload');
+            formdata.append("size",10);
+            formdata.append("fileToUpload",file)
+            console.log(files)
+
+            // ajax_('Exten.php', 'POST', formdata
+            //     , 'upload', function(response) {
+            //     // สิ่งที่คุณต้องการทำเมื่อส่งข้อมูลสำเร็จ
+            // }, function(error) {
+            //     // สิ่งที่คุณต้องการทำเมื่อเกิดข้อผิดพลาด
+            // },false,false);
+
+            } else {
+                alert('แจ้งเตือน');
+            }
         }
     }
     }
@@ -146,6 +163,25 @@ $(document).ready(function(){
                 action: action,
                 data: data
             },
+            processData: processData,
+            contentType: contentType,
+            success: function (response) {
+                if (successCallback) {
+                    successCallback(response);
+                }
+            },
+            error: function (xhr, status, error) {
+                if (errorCallback) {
+                    errorCallback(error);
+                }
+            }
+        });
+    }
+    function ajax_FromData(url, type, data, action, successCallback, errorCallback, processData = true, contentType = null) {
+        $.ajax({
+            url: url,
+            type: type,
+            data: data,
             processData: processData,
             contentType: contentType,
             success: function (response) {
