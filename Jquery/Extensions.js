@@ -56,20 +56,20 @@ $(document).ready(function(){
     function redirect(link){
         window.location.href = link;
     }
-    function dropAnddrag(dropArea){
-        $(dropArea).on('dragover', function(e) {
+    function dropAnddrag(dropArea_id){
+        $(dropArea_id).on('dragover', function(e) {
             e.preventDefault();
             $(this).addClass('dragover');
         });
         
         // เมื่อย้ายเมาส์ออกจาก dropArea
-        $(dropArea).on('dragleave', function(e) {
+        $(dropArea_id).on('dragleave', function(e) {
             e.preventDefault();
             $(this).removeClass('dragover');
         });
         
         // เมื่อมีการวางไฟล์ลงบน dropArea
-        $(dropArea).on('drop', function(e) {
+        $(dropArea_id).on('drop', function(e) {
             e.preventDefault();
             $(this).removeClass('dragover');
         
@@ -87,17 +87,17 @@ $(document).ready(function(){
             uploadFiles(files);
         });
     }
-    function uploadFiles(files , imagePreview) {
+    function uploadFiles(files ,type, imagePreview_id) {
         // ตรวจสอบว่ามีไฟล์หรือไม่
         if (files.length > 0) {
           var file = files[0]; // เลือกไฟล์แรกเท่านั้น
           // ตรวจสอบว่าไฟล์เป็นรูปภาพหรือไม่ (อื่นๆ สามารถตรวจสอบได้ด้วย)
-        if (file.type.indexOf('image') === 0) {
+        if (file.type.indexOf(type) === 0) {
             var reader = new FileReader();
             reader.onload = function(e) {
             var imageUrl = e.target.result;
               // ทำสิ่งที่คุณต้องการกับ URL ของรูปภาพ, เช่นแสดงรูปภาพในหน้าเว็บ
-            $(imagePreview).attr('src', imageUrl);
+            $(imagePreview_id).attr('src', imageUrl);
             };
             reader.readAsDataURL(file); // อ่านไฟล์เป็น Data URL
         } else {
