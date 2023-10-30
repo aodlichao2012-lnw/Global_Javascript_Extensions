@@ -249,4 +249,12 @@ $(document).ready(function(){
             $(element_taget).append(newdiv)
         })
     }
+    function removeTab(element , name_attr){
+        $(element).on('click',function(e){
+            let element_for_remove = $(name_attr)
+            if(element_for_remove.last().length > 0){
+                element_for_remove.last().remove();
+            }
+        })
+    }
 })
