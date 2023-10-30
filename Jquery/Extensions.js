@@ -232,7 +232,7 @@ $(document).ready(function(){
             alert_("Error",e.text(),"OK")
         })
     }
-    function addNewTab(element ,element_taget, type_element, class_ , name_attr , data_attr , text){
+    function addNewElement(element ,element_taget, type_element, class_ , name_attr , data_attr , text){
         let create = $(element)
         create.on('click',function(e){
             let newdiv = $(type_element)
@@ -249,7 +249,7 @@ $(document).ready(function(){
             $(element_taget).append(newdiv)
         })
     }
-    function removeTab(element , name_attr){
+    function removeElement(element , name_attr){
         $(element).on('click',function(e){
             let element_for_remove = $(name_attr)
             if(element_for_remove.last().length > 0){
