@@ -222,4 +222,14 @@ $(document).ready(function(){
             $(element_taget).append($(this).val())
         })
     }
+    function push_value_on_server(element , columname , url , action){
+        let arr_values_from_attr = $(element)
+        let data = new FormData();
+        arr_values_from_attr.each(function(e){
+            data.append(columname,$(this).val())
+        })
+        ajax_FromData(url,'POST',data,action,function(e){ alert_("Success","Success!!","OK")} , function(e){
+            alert_("Error",e.text(),"OK")
+        })
+    }
 })
