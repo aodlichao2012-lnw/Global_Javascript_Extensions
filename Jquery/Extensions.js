@@ -232,4 +232,21 @@ $(document).ready(function(){
             alert_("Error",e.text(),"OK")
         })
     }
+    function addNewTab(element ,element_taget, type_element, class_ , name_attr , data_attr , text){
+        let create = $(element)
+        create.on('click',function(e){
+            let newdiv = $(type_element)
+            for(i =0; i < class_.length;i++){
+                newdiv.addClass(class_[i])
+            }
+            for(i =0; i < name_attr.length; i++){
+                newdiv.attr(name_attr[i],data_attr[i])
+            }
+            for(i =0; i < text.length; i++){
+                newdiv.text(text)
+            }
+            newdiv.text("แท็บใหม่")
+            $(element_taget).append(newdiv)
+        })
+    }
 })
