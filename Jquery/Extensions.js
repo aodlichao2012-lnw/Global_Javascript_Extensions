@@ -48,6 +48,7 @@ $(document).ready(function(){
             tableContainer.appendTo(table);
     }
     function toggle(myElement){
+
         $(myElement).toggle();
     }
     function NewTab(link){
@@ -279,9 +280,16 @@ $(document).ready(function(){
         }
         return arr_values;
     }
-    function SetSessionStroeless_arrary(cookienamearr){
+    function SetSessionStroeless_arrary(cookienamearr , columname){
         for(i =0; i < cookienamearr.length; i++){
-        sessionStorage.setItem(cookienamearr[i])
+        sessionStorage.setItem(columname[i],cookienamearr[i])
+        }
+    }
+    function SetSessionStroeless_fromFromData(cookienamearr , columname){
+        let data_fromdata = new FormData();
+        for(i =0; i < cookienamearr.length; i ++){
+            data_fromdata.append(columname[i],cookienamearr[i])
+            sessionStorage.setItem(columname[i],cookienamearr[i])
         }
     }
 })
