@@ -78,7 +78,16 @@ $(document).ready(function(){
           // เรียกใช้ฟังก์ชันที่จะอัปโหลดไฟล์
             uploadFiles(files);
         });
+        //    // เมื่อมีการวางelment
+        // $(dropArea_id).on('drop', function(e) {
+        //     e.preventDefault();
+        //     $(this).removeClass('dragover');
         
+        //   var files = e.originalEvent.dataTransfer.files; // รับรายการไฟล์ที่ลากมา
+        
+        //   // เรียกใช้ฟังก์ชันที่จะอัปโหลดไฟล์
+        //     uploadFiles(files);
+        // });
         // เมื่อมีการเลือกไฟล์ผ่าน input file
         $(fileToUpload_id).on('change', function() {
           var files = this.files; // รับรายการไฟล์ที่ถูกเลือก
@@ -195,5 +204,22 @@ $(document).ready(function(){
                 }
             }
         });
+    }
+    function push_and_show_values_last_length(element , element_taget){
+        $(element).on('change',function(e){
+            $(this).each(function(){
+                test_arr.push($(this).val())
+            })
+            for(i =0; i < test_arr.length; i++){
+                    $(element_taget).append( test_arr[count])
+                    count = test_arr.length;
+                }
+            })
+    }
+    function push_and_show_values_each_of_element(element , element_taget){
+        let element =  $(element)
+        element.on('change',function(e){
+            $(element_taget).append($(this).val())
+        })
     }
 })
