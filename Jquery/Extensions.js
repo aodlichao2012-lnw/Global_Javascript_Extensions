@@ -257,4 +257,31 @@ $(document).ready(function(){
             }
         })
     }
+    function getCookie(cookieName) {
+        var name = cookieName + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var cookieArray = decodedCookie.split(';');
+        for (var i = 0; i < cookieArray.length; i++) {
+            var cookie = cookieArray[i];
+            while (cookie.charAt(0) == ' ') {
+                cookie = cookie.substring(1);
+            }
+            if (cookie.indexOf(name) == 0) {
+                return cookie.substring(name.length, cookie.length).replace(/\+/g, ' ');
+            }
+        }
+        return "";
+    }
+    function GetSessionStroeless_arrary(cookienamearr){
+        let arr_values = []
+        for(i =0; i < cookienamearr.length; i++){
+            arr_values.push(sessionStorage.getItem(cookienamearr[i]))
+        }
+        return arr_values;
+    }
+    function SetSessionStroeless_arrary(cookienamearr){
+        for(i =0; i < cookienamearr.length; i++){
+        sessionStorage.setItem(cookienamearr[i])
+        }
+    }
 })
