@@ -292,4 +292,42 @@ $(document).ready(function(){
             sessionStorage.setItem(columname[i],cookienamearr[i])
         }
     }
+    function Redirect_without_reload(className ,element_taget ){
+    $(className).on("click", function(e) {
+        e.preventDefault(); // ยกเลิกการโหลดหน้าเว็บใหม่
+    
+        var url = $(this).attr("href");
+    
+        // ดึงเนื้อหาใหม่โดยใช้ Ajax
+        $.ajax({
+            url: url,
+            success: function(data) {
+            // เมื่อ Ajax เสร็จสิ้น, แสดงเนื้อหาใหม่ใน container
+            $(element_taget).html(data);
+            }
+            });
+        });
+    }
+    function Redirect_without_reload_and_authen(className_from_href_tag_a ,element_taget , url_sigin){
+        $(className_from_href_tag_a).on('click', function (e) {
+            $.ajax({
+                url: url_sigin, type: 'GET', success: function (e) {
+                    let data = e
+                    if (data == "200") {
+                        let urls = $(this).attr('href');
+                        e.preventDefault();
+
+                        $.ajax({
+                            url: urls,
+                            success: function (e) {
+                                alert(data)
+                                $(element_taget).html(data)
+                            }})
+                        }
+                    }
+                }
+            )
+        })
+    }
+
 })
