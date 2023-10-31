@@ -57,7 +57,7 @@ $(document).ready(function(){
     function redirect(link){
         window.location.href = link;
     }
-    function dropAnddrag(dropArea_id , fileToUpload_id){
+    function dropAnddrag_upload_file(dropArea_id , fileToUpload_id){
         $(dropArea_id).on('dragover', function(e) {
             e.preventDefault();
             $(this).addClass('dragover');
@@ -104,7 +104,7 @@ $(document).ready(function(){
         {
             var file = item; 
           // ตรวจสอบว่าไฟล์เป็นรูปภาพหรือไม่ (อื่นๆ สามารถตรวจสอบได้ด้วย)
-        if (file.type.indexOf('image') === 0) {
+        if (file.type.indexOf(type) === 0) {
             var reader = new FileReader();
             reader.onload = function(e) {
             let imagePreview = imagePreview_id;
@@ -206,7 +206,7 @@ $(document).ready(function(){
             }
         });
     }
-    function push_and_show_values_last_length(element , element_taget){
+    function push_and_show_arr_values_last_length(element , element_taget){
         let test_arr = [];
         $(element).on('change',function(e){
             $(this).each(function(){
@@ -234,7 +234,7 @@ $(document).ready(function(){
             alert_("Error",e.text(),"OK")
         })
     }
-    function addNewElement(element ,element_taget, type_element, class_ , name_attr , data_attr , text){
+    function addNewElement(element ,element_taget, type_element, class_ = [] , name_attr = [] , data_attr = [], text = []){
         let create = $(element)
         create.on('click',function(e){
             let newdiv = $(type_element)
@@ -274,7 +274,7 @@ $(document).ready(function(){
         }
         return "";
     }
-    function GetSessionStroeless_arrary(cookienamearr){
+    function GetSessionStroeless_arrary(cookienamearr = []){
         let arr_values = []
         for(i =0; i < cookienamearr.length; i++){
             arr_values.push(sessionStorage.getItem(cookienamearr[i]))
@@ -286,7 +286,7 @@ $(document).ready(function(){
         sessionStorage.setItem(columname[i],cookienamearr[i])
         }
     }
-    function SetSessionStroeless_fromFromData(cookienamearr , columname){
+    function SetSessionStroeless_fromFromData(cookienamearr = [] , columname){
         let data_fromdata = new FormData();
         for(i =0; i < cookienamearr.length; i ++){
             data_fromdata.append(columname[i],cookienamearr[i])
@@ -331,7 +331,7 @@ $(document).ready(function(){
             )
         })
     }
-    function Drag_and_drop_copy_element(element , element_attr_add , element_taget){
+    function Drag_and_drop_copy_element(element , element_taget ,element_attr_add_id = [] , element_attr_add_data = [] , class_ = [], text = []){
         $(element).on('dragstart',function(e){
             let send_element = $(this)
             e.originalEvent.dataTransfer.setData("text/plain" , send_element.prop("outerHTML"))
@@ -355,7 +355,15 @@ $(document).ready(function(){
             
         let arr_ = e.originalEvent.dataTransfer.getData("text/plain");
         let element = $(arr_)
-        element.attr(element_attr_add,'1');
+        for(i =0; i < class_.length;i++){
+            newdiv.addClass(class_[i])
+        }
+        for(i =0; i < element_attr_add_id.length; i++){
+            newdiv.attr(element_attr_add_id[i],element_attr_add_data[i])
+        }
+        for(i =0; i < text.length; i++){
+            newdiv.text(text)
+        }
         console.log(element)
         $(this).append(element)
 
