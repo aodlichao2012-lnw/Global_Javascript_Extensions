@@ -331,5 +331,34 @@ $(document).ready(function(){
             )
         })
     }
+    function Drag_and_drop_copy_element(element , element_attr_add , element_taget){
+        $(element).on('dragstart',function(e){
+            let send_element = $(this)
+            e.originalEvent.dataTransfer.setData("text/plain" , send_element.prop("outerHTML"))
+        })
 
+        $(element_taget).on('dragover', function(e) {
+            e.preventDefault();
+            $(this).addClass('dragover');
+        });
+        
+        // เมื่อย้ายเมาส์ออกจาก dropArea
+        $(element_taget).on('dragleave', function(e) {
+            e.preventDefault();
+            $(this).removeClass('dragover');
+        });
+        
+        // เมื่อมีการวางไฟล์ลงบน dropArea
+        $(element_taget).on('drop', function(e) {
+            e.preventDefault();
+            $(this).removeClass('dragover');
+            
+        let arr_ = e.originalEvent.dataTransfer.getData("text/plain");
+        let element = $(arr_)
+        element.attr(element_attr_add,'1');
+        console.log(element)
+        $(this).append(element)
+
+    })
+    }
 })
