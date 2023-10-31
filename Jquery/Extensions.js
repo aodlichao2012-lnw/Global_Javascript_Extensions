@@ -207,6 +207,7 @@ $(document).ready(function(){
         });
     }
     function push_and_show_values_last_length(element , element_taget){
+        let test_arr = [];
         $(element).on('change',function(e){
             $(this).each(function(){
                 test_arr.push($(this).val())
@@ -291,6 +292,7 @@ $(document).ready(function(){
             data_fromdata.append(columname[i],cookienamearr[i])
             sessionStorage.setItem(columname[i],cookienamearr[i])
         }
+        return data_fromdata;
     }
     function Redirect_without_reload(className ,element_taget ){
     $(className).on("click", function(e) {
