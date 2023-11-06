@@ -369,4 +369,24 @@ $(document).ready(function(){
 
     })
     }
+    function Year_dropdwon_and_typing(element){
+        jQuery(function ($) {
+            var currentYear = (new Date()).getFullYear();
+            ////Loop and add the Year values to DropDownList.
+            let year_arr = [];
+            for (var i = 2500; i <= currentYear + 543; i++) {
+
+                year_arr.push("" + i + "");
+            }
+            $(element).autocomplete({
+                source: function (request, response) {
+                    var searchTerm = request.term.toLowerCase(); // รับคำที่พิมพ์
+                    var filteredYears = year_arr.filter(function (year) {
+                        return year.toString().includes(searchTerm);
+                    });
+                    response(filteredYears);
+                }
+            });
+        })
+    }
 })
