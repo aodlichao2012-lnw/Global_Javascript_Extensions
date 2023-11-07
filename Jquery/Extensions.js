@@ -390,4 +390,29 @@ $(document).ready(function(){
             });
         })
     }
+    function Keep_data_from_Socket(url,port, element_target){
+        const socket = new WebSocket(`ws://${url}:${port}`); // WebSocket URL
+
+        socket.onopen = function (event) {
+            console.log("WebSocket connection opened.");
+            socket.send("Hello, Server!"); // Send data to the server
+        };
+
+        socket.onmessage = function (event) {
+            console.log("Received data from server: " + event.data);
+            $(element_target).val(event.data);
+        };
+
+        socket.onclose = function (event) {
+            if (event.wasClean) {
+                console.log("WebSocket connection closed cleanly, code=" + event.code + ", reason=" + event.reason);
+            } else {
+                console.error("WebSocket connection closed with an error.");
+            }
+        };
+
+        socket.onerror = function (error) {
+            console.error("WebSocket error: " + error);
+        };
+    }
 })
