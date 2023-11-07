@@ -369,19 +369,20 @@ $(document).ready(function(){
 
     })
     }
+    //ฟังก์ชั่นนี้ต้องมี jqueryUI มาเสริมด้วย ถึงจะสามารถ ใช้งานได้
     function Year_dropdwon_and_typing(element){
         jQuery(function ($) {
-            var currentYear = (new Date()).getFullYear();
+            let currentYear = (new Date()).getFullYear();
             ////Loop and add the Year values to DropDownList.
             let year_arr = [];
-            for (var i = 2500; i <= currentYear + 543; i++) {
+            for (let i = 2500; i <= currentYear + 543; i++) {
 
                 year_arr.push("" + i + "");
             }
             $(element).autocomplete({
                 source: function (request, response) {
-                    var searchTerm = request.term.toLowerCase(); // รับคำที่พิมพ์
-                    var filteredYears = year_arr.filter(function (year) {
+                    let searchTerm = request.term.toLowerCase(); // รับคำที่พิมพ์
+                    let filteredYears = year_arr.filter(function (year) {
                         return year.toString().includes(searchTerm);
                     });
                     response(filteredYears);
