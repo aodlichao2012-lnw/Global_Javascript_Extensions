@@ -415,4 +415,35 @@ $(document).ready(function(){
             console.error("WebSocket error: " + error);
         };
     }
+    function Keep_data_from_SignalR_2_0(data_to_send, element_taget){
+           // ตรวจสอบสถานะของการเชื่อมต่อก่อนที่จะสร้าง connection ใหม่
+        if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.connected) {
+            console.log("Already connected");
+            return;
+        }
+        // สร้าง connection ใหม่
+        chatHub = $.connection.chatHub;
+        // เพิ่ม event handler สำหรับการรับข้อความ
+        chatHub.client.ReceiveData = function (status) {
+        /*  console.log("Received status: " + status);*/
+            $(element_target).text(status);
+        };
+
+        $.connection.hub.reconnect = true;
+
+        // ตั้งค่า keepAlive และเวลาที่ต้องการทดสอบการเชื่อมต่อ
+        $.connection.hub.keepAlive = 500;
+
+        // เริ่ม connection
+        $.connection.hub.start({ transport: ['serverSentEvents', 'longPolling'], waitForPageLoad: false, pingInterval: 1000 }).done(function () {
+            console.log("Connected to SignalR Hub");
+            // ส่งข้อมูลไปยังเซิร์ฟเวอร์
+            console.log(`SignalR connection transport used is "${$.connection.hub.transport.name}"`);
+
+            // ใช้ setInterval เพื่อเรียก chatHub.server.requestData ทุก 10 วินาที
+            setInterval(function () {
+                chatHub.server.requestData(data_to_send);
+            }, 2000);
+        });
+    }
 })
